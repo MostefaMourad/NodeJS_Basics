@@ -21,7 +21,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.post('/api/stuff', (req, res, next) => {
-    delete req.body._id;
     const thing = new Thing({
         ...req.body  
     });
@@ -30,16 +29,16 @@ app.post('/api/stuff', (req, res, next) => {
        .catch( error => res.status(400).json({error}) )
 });
 
-app.get('/api/stuff', (req, res) => {
+app.use('/api/stuff', (req, res) => {
     Thing.find()
          .then(things => res.status(200).json(things))
          .catch(error => res.status(400,json(error)));
 });
 
-app.get('api/stuff/:id' , (req,res) => {
-   Thing.findOne({_id:req.params.id })
-        .then(thing => res.status(200).json(thing))
-        .catch(error => res.status(400).json(error));
+app.get('/api/stuff/:id', (req, res, next) => {
+  Thing.findOne({ _id: req.params.id })
+    .then(thing => res.status(200).json(thing))
+    .catch(error => res.status(404).json({ error }));
 });
 
 

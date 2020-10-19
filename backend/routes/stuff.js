@@ -12,4 +12,4 @@ router.delete('/:id',stuffCtrl.deleteThing);
 
 router.get('/'+'',stuffCtrl.getAllStuff);
 
-module.exports = router ;op
+module.exports = router ;
